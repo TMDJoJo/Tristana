@@ -13,9 +13,11 @@
 
 #include "Packet.h"
 
-Packet::Packet() {
+Packet::Packet():
+message_(NULL)
+{
     // TODO Auto-generated constructor stub
-
+    packet_type_ = -1;
 }
 
 Packet::~Packet() {

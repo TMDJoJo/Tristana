@@ -46,6 +46,16 @@ typedef UCHAR                   uchar;
 typedef USHORT                  ushort;
 typedef UINT                    uint;
 typedef ULONG                   ulong;
+
+//typedef INT                     int32;
+//typedef UINT                    uint32;
+//
+//typedef SHORT                   int16;
+//typedef USHORT                  uint16;
+//
+//typedef CHAR                    int8;
+//typedef UCHAR                   uint8;
+
 //typedef ULONG              IP_t;
 //typedef USHORT             PacketID_t;
 //typedef INT                       BOOL;
@@ -71,6 +81,12 @@ typedef ULONG                   ulong;
     #define _MAX_PATH 260
 #endif
 
+#undef NULL
+#if defined(__cplusplus)
+#define NULL 0
+#else
+#define NULL ((void *)0)
+#endif
 
 ////////////////////////////////////////
 ////free memory macro
@@ -86,6 +102,11 @@ typedef ULONG                   ulong;
 #define SAFE_DELETE_ARRAY(x)    if( (x)!=NULL ) { delete[] (x); (x)=NULL; }
 #endif
 
+////////////////////////////////////////
+////trace macro
+////////////////////////////////////////
+//#define DEBUG(formate,...)  printf("[DEBUG]"formate,__VA_ARGS__)
+#define DEBUG(formate...)  printf("[DEBUG] "formate)
 ////
 //#ifndef SAFE_FREE
 //#define SAFE_FREE(x)  if( (x)!=NULL ) { free(x); (x)=NULL; }

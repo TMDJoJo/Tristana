@@ -18,9 +18,12 @@
 #include <unistd.h>
 
 #include "../Common/Type.h"
-#include "../Common/Packet.h"
+#include "../Common/Packet/Packet.h"
 #include "../Python/PythonScript.h"
-#include "../Python/Python2CWorld.h"
+#include "../Python/Template.h"
+#include "../Common/Communication/ClientManage.h"
+
+#include <boost/thread.hpp>
 
 Server::Server() :
     is_burn_(FALSE)
@@ -40,7 +43,11 @@ BOOL Server::Init(){
         SAFE_DELETE(g_python_script);
         return FALSE;
     }
-
+    g_client_manage = new ClientManage;
+    if(NULL == g_client_manage)
+        return FALSE;
+//    ZThread::Thread t(g_client_manage);
+    boost::thread t(*g_client_manage);
     return TRUE;
 }
 
@@ -53,22 +60,14 @@ BOOL Server::Loop(){
     }
     return TRUE;
 }
+
 BOOL Server::Exit(){
 
     return TRUE;
 }
-int sayHello(){
-    printf("python call c ...\n");
-    return 0;
-}
-#include <boost/python.hpp>
-BOOST_PYTHON_MODULE(hello){
-    using namespace boost::python;
 
-    def("sayHello",sayHello);
-}
 INT main(INT argc, CHAR* argv[]){
-    printf("hello server!\n");
+    DEBUG("hello server!\n");
 
     if(argc>1){
         for( int i=1; i<argc; i++ ){
@@ -95,13 +94,11 @@ INT main(INT argc, CHAR* argv[]){
     }
     {
         PyThreadStateAutoLock lock;
-        inithello();
-        initPython2CWorld();
+        Python::initTemplate();
     }
 
 //    g_python_script->CallFunction("print 'hello python'");
-    g_python_script->CallFunction("ftp","sayhi","c call python 1234");
-
+    g_python_script->CallFunction("do","sayhi","c call python hello python ...");
 
 //    if( !server->Loop() ){
 //        printf("server loop fail!\n");

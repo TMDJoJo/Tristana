@@ -12,7 +12,7 @@ PythonScript::PythonScript(){
 
 }
 
-PythonScript::~PythonScript() {
+PythonScript::~PythonScript(){
 
     if(0 != Py_IsInitialized){
         Py_Finalize();
