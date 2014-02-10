@@ -22,6 +22,7 @@
 #include "../Python/PythonScript.h"
 #include "../Python/Template.h"
 #include "../Common/Communication/ClientManage.h"
+#include "../Common/Communication/ClientPool.h"
 
 #include <boost/thread.hpp>
 
@@ -36,11 +37,18 @@ Server::~Server() {
 }
 
 BOOL Server::Init(){
-    g_python_script = new PythonScript();
+    g_python_script = new PythonScript;
     if(NULL == g_python_script)
         return FALSE;
     if(!g_python_script->Init()){
         SAFE_DELETE(g_python_script);
+        return FALSE;
+    }
+    g_client_pool = new ClientPool;
+    if(NULL == g_client_pool)
+        return FALSE;
+    if(!g_client_pool->Init()){
+        SAFE_DELETE(g_client_pool);
         return FALSE;
     }
     g_client_manage = new ClientManage;
@@ -68,7 +76,6 @@ BOOL Server::Exit(){
 
 INT main(INT argc, CHAR* argv[]){
     DEBUG("hello server!\n");
-
     if(argc>1){
         for( int i=1; i<argc; i++ ){
             if( strcmp(argv[i],"") !=0 ){
@@ -76,11 +83,11 @@ INT main(INT argc, CHAR* argv[]){
             }
         }
     }
-    static pid_t pid = fork();
-    if(pid > 0){
-        printf("Server start pid %d ...\n",pid);
-        return 0;
-    }
+//    static pid_t pid = fork();
+//    if(pid > 0){
+//        printf("Server start pid %d ...\n",pid);
+//        return 0;
+//    }
 
     Server* server = new Server();
     if(NULL == server){
@@ -100,10 +107,10 @@ INT main(INT argc, CHAR* argv[]){
 //    g_python_script->CallFunction("print 'hello python'");
     g_python_script->CallFunction("do","sayhi","c call python hello python ...");
 
-//    if( !server->Loop() ){
-//        printf("server loop fail!\n");
-//        return -1;
-//    }
+    if( !server->Loop() ){
+        printf("server loop fail!\n");
+        return -1;
+    }
 
     if( !server->Exit() ){
         printf("server exit fail!\n");

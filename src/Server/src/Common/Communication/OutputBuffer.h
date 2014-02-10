@@ -1,7 +1,7 @@
 /*
  * OutputBuffer.h
  *
- *  Created on: 2014年1月23日
+ *  Created on: 2014.1.23
  *      Author: tmdjojo
  */
 
@@ -9,14 +9,15 @@
 #define OUTPUTBUFFER_H_
 #include "../Type.h"
 #include "../Packet/Packet.h"
+#include "./Socket/ActiveSocket.h"
 
-#define MAX_OUTPUT_BUFFER_LEN 8*1024
+#define MAX_OUTPUT_BUFFER_LEN 1024*1024    ////1M
 
 class OutputBuffer {
 public:
     OutputBuffer();
     virtual ~OutputBuffer();
-//    INT Send();
+    INT WriteSocket(CActiveSocket*);
     INT EncodeMessage(Packet*);
 //    inline UINT remain_length(){return MAX_OUTPUT_BUFFER_LEN - data_length_;}
 private:

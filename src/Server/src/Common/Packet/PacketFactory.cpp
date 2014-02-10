@@ -1,7 +1,7 @@
 /*
  * PacketFactory.cpp
  *
- *  Created on: 2014年1月23日
+ *  Created on: 2014.1.23
  *      Author: tmdjojo
  */
 

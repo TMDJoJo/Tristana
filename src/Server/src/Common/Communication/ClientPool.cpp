@@ -19,3 +19,7 @@ ClientPool::~ClientPool() {
 	// TODO Auto-generated destructor stub
 }
 
+BOOL ClientPool::Init(){
+
+    return TRUE;
+}

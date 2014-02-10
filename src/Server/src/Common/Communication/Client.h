@@ -13,6 +13,7 @@
 class Client: public Side {
 public:
 	Client();
+	virtual INT Execute();
 	virtual ~Client();
 };
 

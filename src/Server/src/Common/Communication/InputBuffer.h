@@ -1,14 +1,14 @@
 /*
  * InputBuffer.h
  *
- *  Created on: 2014年1月23日
+ *  Created on: 2014.1.23
  *      Author: tmdjojo
  */
 
 #ifndef INPUTBUFFER_H_
 #define INPUTBUFFER_H_
 
-#define MAX_INPUT_BUFFER_LEN    512*1024    ////0.5M
+#define MAX_INPUT_BUFFER_LEN    1024*1024    ////1M
 #include <google/protobuf/message.h>
 #include "../Type.h"
 #include "../Packet/Packet.h"

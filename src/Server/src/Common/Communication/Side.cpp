@@ -1,7 +1,7 @@
 /*
  * Side.cpp
  *
- *  Created on: 2014年1月23日
+ *  Created on: 2014.1.23
  *      Author: tmdjojo
  */
 
@@ -29,10 +29,12 @@ Packet* Side::ReceivePacket(){
 BOOL Side::Input(){
     INT re = input_buffer_.ReadSocket(socket_);
 
-    return TRUE;
+    return (0 == re);
 }
 
 BOOL Side::Output(){
+    INT re = output_buffer_.WriteSocket(socket_);
 
-    return TRUE;
+    return (0 == re);
+
 }

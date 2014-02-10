@@ -1,7 +1,7 @@
 /*
  * PacketFactory.h
  *
- *  Created on: 2014年1月23日
+ *  Created on: 2014.1.23
  *      Author: tmdjojo
  */
 
@@ -11,6 +11,7 @@
 #include "../Type.h"
 
 typedef Packet*(*PacketCreateMethord)(PacketHead&,const char*);
+
 #define PACKETCREATER(DerivedPacket,ProtcolMessage) \
 class DerivedPacket##Creater{\
 public:\
@@ -32,8 +33,6 @@ public:\
     }\
     return ptk;\
 };
-
-
 
 enum PacketType{
     ERRORTYPE       = -1,

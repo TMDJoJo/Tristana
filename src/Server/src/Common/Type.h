@@ -106,7 +106,16 @@ typedef ULONG                   ulong;
 ////trace macro
 ////////////////////////////////////////
 //#define DEBUG(formate,...)  printf("[DEBUG]"formate,__VA_ARGS__)
-#define DEBUG(formate...)  printf("[DEBUG] "formate)
+#define _DEBUG
+
+#ifndef _DEBUG
+    #define DEBUG(formate...)
+#else
+    #define DEBUG(formate...)  printf("[DEBUG] "formate)
+#endif
+
+#define PRINT(formate...)  printf("[DEBUG] "formate)
+
 ////
 //#ifndef SAFE_FREE
 //#define SAFE_FREE(x)  if( (x)!=NULL ) { free(x); (x)=NULL; }

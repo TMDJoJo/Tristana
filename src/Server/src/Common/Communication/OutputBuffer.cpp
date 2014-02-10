@@ -1,12 +1,14 @@
 /*
  * OutputBuffer.cpp
  *
- *  Created on: 2014年1月23日
+ *  Created on: 2014.1.23
  *      Author: tmdjojo
  */
 
 #include "OutputBuffer.h"
 #include <string.h>
+
+#define SOCKET_MAX_WRITE_LEN    8*1024
 
 OutputBuffer::OutputBuffer() {
     // TODO Auto-generated constructor stub
@@ -17,6 +19,38 @@ OutputBuffer::OutputBuffer() {
 
 OutputBuffer::~OutputBuffer() {
     // TODO Auto-generated destructor stub
+}
+
+INT OutputBuffer::WriteSocket(CActiveSocket* socket){
+    if(NULL == socket
+            ||!socket->IsSocketValid()){
+        ////socket error
+        return 1;
+    }
+    INT write_len = SOCKET_MAX_WRITE_LEN;
+    SOCKET_MAX_WRITE_LEN > data_length_ ? write_len = data_length_ : 0;
+
+    INT remaind_len = write_len - 1 - data_head_;
+    INT send_len = 0;
+    if(remaind_len < write_len){
+        send_len = socket->Send((UCHAR*)&data_[data_head_],remaind_len);
+        if(send_len <= 0
+                ||send_len > remaind_len){
+            ////disconnect
+            return -1;
+        }
+    }
+    else{
+        send_len = socket->Send((UCHAR*)&data_[data_head_],write_len);
+        if(send_len <= 0
+                ||send_len > write_len){
+            ////disconnect
+            return -1;
+        }
+    }
+    data_length_ -= send_len;
+    data_head_ = (data_head_ + send_len)%MAX_OUTPUT_BUFFER_LEN;
+    return 0;
 }
 
 INT OutputBuffer::EncodeMessage(Packet* packet){

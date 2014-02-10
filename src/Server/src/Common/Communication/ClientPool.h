@@ -11,12 +11,13 @@
 #include "./Client.h"
 #include "../Type.h"
 
-#define MAX_CLIENT_SIZE    256
+#define MAX_CLIENT_SIZE    64  ////max connects
 
 class ClientPool {
 public:
 	ClientPool();
 	virtual ~ClientPool();
+	BOOL Init();
 	inline Client* GetClient(UINT index){
 	    return (index >= MAX_CLIENT_SIZE)?NULL:&client_pool_[index];
 	}

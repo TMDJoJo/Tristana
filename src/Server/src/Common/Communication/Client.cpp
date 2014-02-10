@@ -16,3 +16,9 @@ Client::~Client() {
 	// TODO Auto-generated destructor stub
 }
 
+INT Client::Execute(){
+    Packet* packet = this->ReceivePacket();
+    if(NULL == packet)
+        return 0;
+    return packet->Execute(this);
+}

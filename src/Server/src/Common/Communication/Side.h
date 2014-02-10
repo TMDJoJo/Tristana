@@ -1,7 +1,7 @@
 /*
  * Side.h
  *
- *  Created on: 2014年1月23日
+ *  Created on: 2014.1.23
  *      Author: tmdjojo
  */
 
@@ -18,10 +18,12 @@ public:
     Side();
     virtual ~Side();
     INT SendPacket(Packet*);
-    Packet* ReceivePacket();
 
+    virtual INT Execute() = 0;
     BOOL Input();
     BOOL Output();
+protected:
+    Packet* ReceivePacket();
 private:
     CActiveSocket* socket_;
     InputBuffer input_buffer_;

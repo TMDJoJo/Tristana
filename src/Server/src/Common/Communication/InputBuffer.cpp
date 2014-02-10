@@ -1,7 +1,7 @@
 /*
  * InputBuffer.cpp
  *
- *  Created on: 2014年1月23日
+ *  Created on: 2014.1.23
  *      Author: tmdjojo
  */
 
@@ -72,11 +72,11 @@ Packet* InputBuffer::DecodeMessage(){
 INT InputBuffer::ReadSocket(CActiveSocket* socket){
     if(NULL == socket
             ||!socket->IsSocketValid()){
-        ////socket errro
+        ////socket error
         return 1;
     }
     if(SOCKET_MAX_READ_LEN > MAX_INPUT_BUFFER_LEN - data_length_){
-        ////缓冲区空间不足
+        ////no much buffer
         return 0;
     }
     int len = socket->Receive(SOCKET_MAX_READ_LEN);
@@ -88,13 +88,13 @@ INT InputBuffer::ReadSocket(CActiveSocket* socket){
 
 INT InputBuffer::Write(const CHAR* buf,UINT len){
     if(len > MAX_INPUT_BUFFER_LEN - data_length_){
-        ////缓冲区空间不足
+        ////no much buffer
         return -1;
     }
     UINT remaind_len = MAX_INPUT_BUFFER_LEN - 1 - data_tail_;
     if( remaind_len < len ){
         memcpy(&data_[data_tail_],buf,remaind_len);
-        memcpy(&data_[0],buf+remaind_len,len - remaind_len);
+        memcpy(&data_[0],buf + remaind_len,len - remaind_len);
         data_tail_ = len - remaind_len;
         data_length_ += len;
     }
@@ -113,7 +113,7 @@ INT InputBuffer::Read(CHAR* buf,UINT len){
     UINT remaind_len = MAX_INPUT_BUFFER_LEN - 1 - data_head_;
     if(remaind_len < len){
         memcpy(buf,&data_[data_head_],remaind_len);
-        memcpy(buf,&data_[0],len - remaind_len);
+        memcpy(buf + remaind_len,&data_[0],len - remaind_len);
     }
     else{
         memcpy(buf,&data_[data_head_],len);

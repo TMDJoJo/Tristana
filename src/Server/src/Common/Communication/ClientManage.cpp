@@ -54,5 +54,10 @@ VOID ClientManage::OutputStream(){
 }
 
 VOID ClientManage::Execute(){
+    for(UINT index = 0;index < MAX_CLIENT_SIZE;++index){
+        Client* client = g_client_pool->GetClient(index);
+        if(NULL == client)
+            continue;
 
+    }
 }
